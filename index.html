@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-show="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>吃泡芙</title>
+    <!-- Element-UI 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="css/mian.css">
+
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header style="height: 100px;text-align: center;line-height: 100px">
+            <el-link type="danger" :underline="false" style="font-size: 60px;font-weight: bold">
+                <el-avatar src="images/icon/eat_left.png" style="background: none"></el-avatar>
+                <span v-bind:title="message" v-on:click="getNowGiftDay">EAT PUFF</span>
+                <el-avatar src="images/icon/eat_right.png" style="background: none"></el-avatar>
+            </el-link>
+        </el-header>
+        <el-scrollbar style="height: 100%">
+            <el-main>
+                <el-row :gutter="20" type="flex" justify="center">
+                    <el-col :xs="24" :sm="24" :md="6" :lg="5" :xl="5">
+                        <div class="grid-content bg-purple">
+                            <el-col class="col-box-inner">
+                                <el-row type="flex" justify="center">
+                                    <el-image style="width:120px;height: 120px"
+                                              src="images/icon/gift.png"></el-image>
+                                </el-row>
+                                <el-row type="flex" justify="center">
+                                    <h3 v-on:click="getNowGiftDay" style="cursor:pointer">礼物日</h3>
+                                </el-row>
+                            </el-col>
+                        </div>
+                    </el-col>
+                    <el-col :xs="24" :sm="24" :md="6" :lg="5" :xl="5">
+                        <div class="grid-content bg-purple">
+                            <el-col class="col-box-inner">
+                                <el-row type="flex" justify="center">
+                                    <el-image style="width:120px;height: 120px" src="images/icon/dice.png"></el-image>
+                                </el-row>
+                                <el-row type="flex" justify="center">
+                                    <h3 style="cursor:pointer">随机挑战</h3>
+                                </el-row>
+                            </el-col>
+                        </div>
+                    </el-col>
+                    <el-col :xs="24" :sm="24" :md="6" :lg="5" :xl="5">
+                        <div class="grid-content bg-purple">
+                            <el-col class="col-box-inner">
+                                <el-row type="flex" justify="center" align="midden">
+                                    <el-image style="width:120px;height: 120px" src="images/icon/more.png"></el-image>
+                                </el-row>
+                                <el-row type="flex" justify="center">
+                                    <h3 style="cursor:pointer">更多。。</h3>
+                                </el-row>
+                            </el-col>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-main>
+        </el-scrollbar>
+
+        <el-footer style="background-color: #f5f6f5;text-align: center;line-height: 60px">
+            Copyright by
+            <el-link target="_blank" type="danger" href="http://skyzc.top">Skyzc</el-link>
+            All rights Reserved.
+        </el-footer>
+        <el-dialog
+                title="~礼物日~"
+                :visible.sync="showGiftDialogVisible"
+                :close-on-click-modal="false" center>
+            <!-- context -->
+            <div style="text-align: center">
+                <h6>{{ nowYear }}.{{ nowMonth }}.......</h6>
+                <h6>PUFF已召唤.......</h6>
+                <span>礼物日为</span><br>
+                <span style="font-size: 40px;color: #F56C6C;font-weight: bold">{{ nowGiftDay }}</span> 日 <br>
+                <el-popover
+                        placement="top-start"
+                        width="230"
+                        trigger="hover"
+                        content="礼物日已锁定！请牢记于心喔^_^">
+                    <span slot="reference" v-show="isLock" style="font-size: 15px;color: #d3dce6;cursor:pointer">（已锁定）</span>
+                </el-popover>
+            </div>
+            <!-- footer -->
+            <div slot="footer" class="dialog-footer">
+                <el-button type="danger" @click.native="showGiftDialogVisible = false" :loading="addLoading">好哒~知道啦</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog
+                title="~礼物日~"
+                :visible.sync="createGiftDialogVisible"
+                :close-on-click-modal="false" center>
+            <!-- context -->
+            <div>
+                <div class="example-item">
+<!--                    <count-to ref='example3' class='allTime' :start-val='_startVal' :end-val='_endVal' :duration='_duration' :decimals='_decimals'-->
+<!--                              :separator='_separator' :prefix='_prefix' :suffix='_suffix' :autoplay=true>-->
+<!--                    </count-to>-->
+                    <h1 class="allTime">{{ allTime }}</h1>
+
+                </div>
+                <h1 style="text-align: center"> 赶快召唤PUFF，抽取礼物日 </h1>
+                <h1 style="text-align: center">👇👇👇</h1>
+            </div>
+            <!-- footer -->
+            <div slot="footer" class="dialog-footer">
+                <el-button v-on:click="createGiftDay" type="danger" :openGiftDialog="addLoading">召唤PUFF^_^</el-button>
+            </div>
+        </el-dialog>
+    </el-container>
+</div>
+</body>
+<!-- Vue.js 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script src="js/vue-count-to.min.js"></script>
+<!-- Element-UI 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="lib/js/clickheart.js"></script>
+<script src="lib/js/petalfloat.js"></script>
+<script>
+    /*
+    *   初始化飘落花瓣
+    * */
+    var pf = new PF();
+    pf.init();
+    pf.start();
+    window.addEventListener("resize", function () {
+        pf.reSize();
+    })
+</script>
+<!-- axios&qs -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.bootcss.com/qs/6.5.1/qs.min.js"></script>
+<script src="js/main.js"></script>
+</html>
